@@ -16,7 +16,28 @@
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
         }
+        .help-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+            flex: 0;  /* Override the flex: 1 from button styles */
+        }
 
+        .help-button:hover {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
         * {
             margin: 0;
             padding: 0;
@@ -64,6 +85,7 @@
         }
 
         .hint {
+            display: none; 
             background: #f8fafc;
             border: 1px solid var(--border-color);
             padding: 0.75rem;
@@ -294,12 +316,10 @@
         <div class="editor" id="editorSection">
             <div class="editor-header">
                 <h1 class="editor-title">Quote Editor</h1>
-                <button class="secondary-button" onclick="togglePreview()">
-                    Toggle Preview
-                </button>
+                <button class="help-button" onclick="toggleHelp()" aria-label="Toggle help">?</button>
             </div>
-            <div class="hint">
-                <strong>Markdown Support:</strong><br>
+            <div class="hint" id="markdownHint" style="display: none;">
+                <strong>Markdown Guide:</strong><br>
                 • Headers: # H1, ## H2, ### H3<br>
                 • Formatting: **bold**, *italic*, `code`<br>
                 • Lists: - item or 1. item<br>
@@ -415,6 +435,10 @@
             return text;
         }
 
+        function toggleHelp() {
+            const hint = document.getElementById('markdownHint');
+            hint.style.display = hint.style.display === 'none' ? 'block' : 'none';
+        }
 
         function generateQuote() {
             const input = document.getElementById('markdownInput').value;
