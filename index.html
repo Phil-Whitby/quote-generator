@@ -94,17 +94,18 @@
 
         .button-group {
             display: flex;
-            gap: 0.75rem;
+            gap: 1rem;
             margin-top: 1rem;
         }
 
         button {
-            padding: 0.625rem 1rem;
+            padding: 0.75rem 2rem;  /* Increased padding */
             border-radius: 6px;
-            font-size: 0.875rem;
+            font-size: 1rem;        /* Slightly larger font */
             font-weight: 500;
             cursor: pointer;
             transition: all 0.15s ease;
+            flex: 1;               /* Make buttons fill available space equally */
         }
 
         .primary-button {
@@ -307,7 +308,6 @@
             </div>
             <textarea id="markdownInput" placeholder="Enter your markdown here..."></textarea>
             <div class="button-group">
-                <button class="primary-button" onclick="generateQuote()">Generate Quote</button>
                 <button class="secondary-button" onclick="clearContent()">Clear</button>
                 <button class="success-button" onclick="printQuote()">Print</button>
             </div>
@@ -415,12 +415,29 @@
             return text;
         }
 
+
         function generateQuote() {
             const input = document.getElementById('markdownInput').value;
             const rendered = parseMarkdown(input);
             document.getElementById('renderedContent').innerHTML = rendered;
             document.getElementById('quotePreview').style.display = 'block';
         }
+
+        // Add new event listener when the document is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            const textarea = document.getElementById('markdownInput');
+            // Set focus on the textarea
+            textarea.focus();
+            
+            // Add input event listener for real-time preview
+            textarea.addEventListener('input', function() {
+                generateQuote();
+            });
+            
+            // Initial generation of quote from URL parameters
+            document.getElementById('markdownInput').value = getMarkdownFromURL();
+            generateQuote();
+        });
 
         function clearContent() {
             document.getElementById('markdownInput').value = '';
